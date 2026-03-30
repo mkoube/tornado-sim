@@ -296,12 +296,13 @@ st.markdown("<br>", unsafe_allow_html=True)
 
 
 # ─── TABS ───────────────────────────────────────────────────────────────────────
-tab1, tab2, tab3, tab4, tab5 = st.tabs([
+tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
     "📡  3D VIEW",
     "▶  ANIMATION",
     "📊  VELOCITY PROFILES",
     "🗺️  TOP-DOWN VIEW",
     "🎯  PARTICLE TRACKER",
+    "ℹ️  ACERCA DE",
 ])
 
 
@@ -796,3 +797,180 @@ with tab5:
             "(V_theta) + inflow radial (V_r) + updraft vertical (V_z). "
             "Particulas mas cerca del core rotan mas rapido y ascienden antes."
             "</span>", unsafe_allow_html=True)
+
+# ══════════════════════════════════════════════════════════════════════════════════
+# TAB 6 — ACERCA DE
+# ══════════════════════════════════════════════════════════════════════════════════
+with tab6:
+
+    def card(titulo, icono, color, contenido):
+        st.markdown(
+            f"""<div style='
+                background: rgba(255,255,255,0.03);
+                border: 1px solid {color}44;
+                border-left: 4px solid {color};
+                border-radius: 10px;
+                padding: 18px 22px;
+                margin-bottom: 16px;
+            '>
+            <div style='font-family:Orbitron,monospace;font-size:1rem;font-weight:700;
+                        color:{color};margin-bottom:10px'>{icono} {titulo}</div>
+            <div style='font-family:Share Tech Mono,monospace;font-size:0.85rem;
+                        color:#c8d8f0;line-height:1.7'>{contenido}</div>
+            </div>""",
+            unsafe_allow_html=True
+        )
+
+    # ── HEADER ──────────────────────────────────────────────────────────────────
+    st.markdown(
+        """<div style='
+            background: linear-gradient(135deg, rgba(74,240,255,0.08) 0%, rgba(123,95,255,0.08) 100%);
+            border: 1px solid rgba(74,240,255,0.2);
+            border-radius: 14px;
+            padding: 28px 32px;
+            margin-bottom: 24px;
+            text-align: center;
+        '>
+        <div style='font-family:Orbitron,monospace;font-size:1.8rem;font-weight:900;
+                    background:linear-gradient(135deg,#4af0ff,#7b5fff,#ff6b35);
+                    -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+                    background-clip:text;margin-bottom:10px'>
+            🌪️ SIMULADOR DE TORNADOS
+        </div>
+        <div style='font-family:Share Tech Mono,monospace;font-size:0.9rem;color:#8ab4d8'>
+            Proyecto Científico · SIL 2026 · Basado en el tornado F1 de Santa Rosa del Monday, Paraguay (Diciembre 2025)
+        </div>
+        </div>""",
+        unsafe_allow_html=True
+    )
+
+    # ── QUÉ ES ESTO ─────────────────────────────────────────────────────────────
+    card(
+        "¿QUÉ ES ESTA APP?", "🤔", "#4af0ff",
+        """Esta es una <b style='color:#4af0ff'>simulación computacional interactiva</b> de tornados,
+        desarrollada como proyecto científico escolar. Usamos matemáticas reales para recrear 
+        cómo se mueve el viento dentro de un tornado — sin necesidad de estar cerca de uno.<br><br>
+        Todo lo que ves en pantalla (las partículas girando, los gráficos, los números) 
+        es calculado en tiempo real por la computadora usando fórmulas de física atmosférica.
+        Podés cambiar los parámetros del sidebar y ver cómo cambia el tornado al instante."""
+    )
+
+    # ── DE DÓNDE VIENE LA IDEA ──────────────────────────────────────────────────
+    card(
+        "¿DE DÓNDE VIENE LA IDEA?", "💡", "#fbbf24",
+        """En <b style='color:#fbbf24'>diciembre de 2025</b>, un tornado categoría F1 golpeó 
+        <b style='color:#fbbf24'>Santa Rosa del Monday, Paraguay</b> — uno de los eventos 
+        meteorológicos más intensos registrados en la región oriental del país.<br><br>
+        Ese evento nos motivó a preguntarnos: <i>¿podemos modelar matemáticamente cómo funciona 
+        un tornado como ese?</i> Esta app es nuestra respuesta. El botón 
+        <b style='color:#ff6b35'>⚡ Preset Santa Rosa del Monday</b> en el sidebar carga 
+        exactamente los parámetros estimados de ese tornado real."""
+    )
+
+    # ── CÓMO FUNCIONA ───────────────────────────────────────────────────────────
+    card(
+        "¿CÓMO FUNCIONA LA SIMULACIÓN?", "⚙️", "#7b5fff",
+        """Usamos el <b style='color:#7b5fff'>Modelo de Vórtice de Rankine</b>, que es el modelo 
+        estándar que usan los meteorólogos para describir tornados y huracanes. 
+        Se divide en dos zonas:<br><br>
+        &nbsp;&nbsp;🔴 <b>Zona interior (core)</b>: el aire rota como un sólido rígido — 
+        cuanto más lejos del centro, más rápido.<br>
+        &nbsp;&nbsp;🔵 <b>Zona exterior</b>: el viento se va debilitando a medida que te alejás, 
+        siguiendo la fórmula 1/r.<br><br>
+        A esto le sumamos dos efectos extra: el <b>inflow</b> (aire que entra en espiral hacia 
+        adentro) y el <b>updraft</b> (corriente vertical que succiona todo hacia arriba). 
+        La combinación de los tres crea el movimiento helicoidal característico del tornado."""
+    )
+
+    # ── QUÉ HACE CADA PESTAÑA ───────────────────────────────────────────────────
+    st.markdown(
+        "<div style='font-family:Orbitron,monospace;font-size:1rem;font-weight:700;"
+        "color:#4af0ff;margin:8px 0 14px 0'>📂 ¿QUÉ HACE CADA PESTAÑA?</div>",
+        unsafe_allow_html=True
+    )
+
+    tabs_info = [
+        ("📡 3D VIEW",          "#4af0ff", "Vista principal del tornado en 3D. Podés rotar, hacer zoom y cambiar el color de las partículas. El panel derecho muestra la Escala Fujita y dónde cae tu configuración actual."),
+        ("▶ ANIMATION",         "#7b5fff", "El tornado animado en tiempo real. Las partículas se mueven siguiendo la física del modelo — giran y suben al mismo tiempo. Presioná PLAY y podés seguir rotando el gráfico mientras corre."),
+        ("📊 VELOCITY PROFILES", "#fbbf24", "Dos gráficos 2D que muestran la física en detalle: la curva de Rankine (cómo cambia la velocidad con la distancia) y el perfil vertical del updraft. Compara tu config con el F1 de Santa Rosa."),
+        ("🗺️ TOP-DOWN VIEW",    "#6ee7b7", "Vista desde arriba del tornado (como si lo vieras desde un satélite). Muestra el patrón de espiral y las tres zonas de peligro: core, transición y exterior."),
+        ("🎯 PARTICLE TRACKER", "#ff6b35", "Elige un punto de partida y seguí el recorrido exacto de una sola partícula dentro del vórtice. La trayectoria helicoidal muestra perfectamente cómo un tornado levanta y arrastra objetos."),
+    ]
+
+    for nombre, color, desc in tabs_info:
+        st.markdown(
+            f"""<div style='
+                display:flex; align-items:flex-start; gap:14px;
+                background:rgba(255,255,255,0.02);
+                border:1px solid {color}33;
+                border-radius:8px; padding:12px 16px; margin-bottom:10px;
+            '>
+            <div style='font-family:Orbitron,monospace;font-size:0.85rem;font-weight:700;
+                        color:{color};min-width:160px;padding-top:2px'>{nombre}</div>
+            <div style='font-family:Share Tech Mono,monospace;font-size:0.83rem;
+                        color:#c8d8f0;line-height:1.6'>{desc}</div>
+            </div>""",
+            unsafe_allow_html=True
+        )
+
+    # ── CONTROLES DEL SIDEBAR ───────────────────────────────────────────────────
+    st.markdown("<br>", unsafe_allow_html=True)
+    card(
+        "¿QUÉ CONTROLAN LOS SLIDERS?", "🎛️", "#6ee7b7",
+        """<b style='color:#6ee7b7'>Core Radius (R_c)</b> — El tamaño del ojo del tornado. 
+        Más grande = tornado más ancho. Un F1 real tiene ~100–200 m.<br>
+        <b style='color:#6ee7b7'>Max Wind Speed</b> — La velocidad del viento en el borde del core. 
+        Determina automáticamente la categoría Fujita (F0 a F5).<br>
+        <b style='color:#6ee7b7'>Updraft Strength</b> — Qué tan fuerte sube el aire. 
+        Un updraft fuerte = tornado alto y activo.<br>
+        <b style='color:#6ee7b7'>Inflow Angle</b> — Qué tan cerrada es la espiral. 
+        Mayor ángulo = el aire cae hacia el centro más rápido.<br>
+        <b style='color:#6ee7b7'>Number of Particles</b> — Solo cambia la densidad visual, 
+        no afecta la física.<br>
+        <b style='color:#ff6b35'>⚡ Preset Santa Rosa</b> — Carga de un clic los parámetros 
+        estimados del tornado real de diciembre 2025."""
+    )
+
+    # ── TECNOLOGÍA ──────────────────────────────────────────────────────────────
+    card(
+        "¿CON QUÉ ESTÁ HECHO?", "🛠️", "#ff6b35",
+        """Esta app está programada en <b style='color:#ff6b35'>Python</b>, 
+        usando tres librerías principales:<br><br>
+        &nbsp;&nbsp;🔢 <b>NumPy</b> — hace todos los cálculos matemáticos del modelo físico.<br>
+        &nbsp;&nbsp;📊 <b>Plotly</b> — genera los gráficos 3D interactivos que podés rotar y explorar.<br>
+        &nbsp;&nbsp;🌐 <b>Streamlit</b> — convierte el código Python en esta página web con sliders y pestañas.<br><br>
+        El código fuente completo está disponible en GitHub y puede correrse 
+        localmente con un solo comando: <b style='color:#4af0ff'>streamlit run tornado_sim.py</b>"""
+    )
+
+    # ── LIMITACIONES ────────────────────────────────────────────────────────────
+    card(
+        "¿QUÉ NO PUEDE HACER ESTA SIMULACIÓN?", "⚠️", "#ef4444",
+        """Es importante ser honestos sobre los límites del modelo:<br><br>
+        ❌ <b>No predice</b> cuándo o dónde va a ocurrir un tornado real.<br>
+        ❌ <b>No simula</b> cómo se forma el tornado desde la tormenta — eso requiere 
+        resolver ecuaciones de Navier-Stokes, que están más allá del nivel escolar.<br>
+        ❌ <b>No incluye</b> efectos de terreno, humedad, temperatura ni fricción con el suelo.<br>
+        ❌ Los valores del preset de Santa Rosa son <b>estimaciones</b> basadas en 
+        la categoría Fujita observada, no mediciones directas.<br><br>
+        ✅ Lo que sí hace es representar fielmente la <b>estructura cinemática</b> 
+        (de velocidades) de un tornado real usando el modelo estándar de la meteorología."""
+    )
+
+    # ── FOOTER ──────────────────────────────────────────────────────────────────
+    st.markdown(
+        """<div style='
+            text-align:center;
+            margin-top:30px;
+            padding:20px;
+            border-top:1px solid #1a2a4a;
+            font-family:Share Tech Mono,monospace;
+            font-size:0.8rem;
+            color:#2a4a6a;
+        '>
+        Proyecto Científico · Intercolegial SIL 2026 · Paraguay<br>
+        Modelo: Rankine Combined Vortex · Stack: Python + NumPy + Plotly + Streamlit<br>
+        <span style='color:#1a3a5a'>Inspirado en el tornado F1 de Santa Rosa del Monday · Diciembre 2025</span>
+        </div>""",
+        unsafe_allow_html=True
+    )
